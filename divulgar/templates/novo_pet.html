@@ -1,0 +1,106 @@
+{% load static %}
+<!doctype html>
+<html lang="pt-BR">
+    <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cadastro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{% static 'users/css/cadastro.css' %}" rel="stylesheet">
+    <link href="{% static 'divulgar/css/novo_pet.css' %}" rel="stylesheet">
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <script defer src="{% static 'divulgar/js/novo_pet.js' %}"></script>
+
+    </head>
+    <body>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-2 bg-side sidebar">
+                    <h2>ADO.TE</h2>
+                    <hr>
+                   
+                    
+                </div>
+
+                <div class="col-md">
+                    <div class="wrapper">
+                        <div class="box">
+                            <div class="header-box">
+                                <h3 class="font-vinho">Quero divulgar</h3>
+                                <hr>
+                            </div>
+                            <div class="body-box">
+                                <form action="{% url 'novo_pet' %}" method="POST" enctype='multipart/form-data'>{% csrf_token %}
+                                    {% if messages %}
+                                        <br>
+                                        {% for message in messages %}
+                                            <div class="alert {{message.tags}}">
+                                                {{message}}
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                    <span>Fotos do Pet:</span>
+                                    <input type="file" name="foto" class="form-control">
+                                    
+                                    <div class="row">
+                                        <div class="col-md">
+                                            <span>Nome:<span>
+                                            <input type="text" class="form-control" name="nome" placeholder="Digite o nome do pet...">
+                                        </div>
+    
+                                        <div class="col-md">
+                                            <span>Sexo:</span>
+                                            <select name="sexo" id="sexo" class="form-select">
+                                                <option value="F">Fémea</option>
+                                                <option value="M">Macho</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <span>Descrição:<span>
+                                    <textarea class="form-control" name="descricao" placeholder="Descrição..."></textarea>
+                                    <div class="row">
+                                        <div class="col-md">
+                                            <span>Estado:</span>
+                                            <select name="estado" id="estado" class="form-select">
+                                                
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md">
+                                            <span>Cidade:</span>
+                                            <select name="cidade" id="cidade" class="form-select">
+                                                <option value="none" selected>----</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <span>Telefone para contato:</span>
+                                    <input type="tel" maxlength="15" placeholder="Digite o seu telefone..." name="telefone" class="form-control" onkeyup="handlePhone(event)">
+                                    <span>O cão é:</span>
+                                    <select name="tags" multiple class="form-select">
+                                       {% for tag in tags %}
+                                        <option value="{{tag.id}}">{{tag}}</option>
+                                       {% endfor %}
+                                    </select>
+                                    </span>Raça:</span>
+
+                                    <select name="raca" class="form-select">
+                                       {% for raca in racas %}
+                                        <option value="{{raca.id}}">{{raca}}</option>
+                                       {% endfor %}
+                                    </select>
+
+                                    <input type="submit" value="ENVIAR" class="btn-custom-primary">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+    </body>
+</html>

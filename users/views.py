@@ -4,15 +4,13 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.messages import constants
 import re
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import login, logout, authenticate
 from django.shortcuts import redirect
-
-regex_email = re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')
 
 # Create your views here.
 def cadastro(request):
-    # if request.user.is_authenticate:
-    #     return redirect('/divulgar/novo_pet')
+    if request.user.is_authenticated:
+        return redirect('/divulgar/novo_pet')
     
     if request.method == "GET":
         return render(request, '../templates/cadastro.html')
@@ -28,6 +26,8 @@ def cadastro(request):
         if password != conf_password:
             messages.add_message(request, constants.ERROR, "As senhas não conferem !")
             return render(request, 'cadastro.html')
+
+        regex_email = re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')
 
         if not re.fullmatch(regex_email, email):
             messages.add_message(request, constants.ERROR, "Digite um e-mail válido !")
@@ -47,8 +47,8 @@ def cadastro(request):
         
         
 def logar(request):
-    # if request.user.is_authenticate:
-    #     return redirect('/divulgar/novo_pet')
+    if request.user.is_authenticated:
+        return redirect('/divulgar/novo_pet')
     
     if request.method == "GET":
         return render(request, 'login.html')
